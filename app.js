@@ -18,6 +18,7 @@ app.use(
     secret: "keyboard cat",
     saveUninitialized: false, // don't create session until something stored
     store: MongoStore.create({
+      // mongoUrl: process.env.MONGO_URI_LOCALHOST_LOCALHOST,
       mongoUrl: process.env.MONGO_URI_LOCALHOST,
       touchAfter: 24 * 3600, // time period in seconds
       collectionName: "user_session",
