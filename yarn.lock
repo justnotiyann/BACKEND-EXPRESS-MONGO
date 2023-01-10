@@ -966,6 +966,14 @@ express-session@^1.17.3:
     safe-buffer "5.2.1"
     uid-safe "~2.1.5"
 
+express-validator@^6.14.2:
+  version "6.14.2"
+  resolved "https://registry.yarnpkg.com/express-validator/-/express-validator-6.14.2.tgz#6147893f7bec0e14162c3a88b3653121afc4678f"
+  integrity sha512-8XfAUrQ6Y7dIIuy9KcUPCfG/uCbvREctrxf5EeeME+ulanJ4iiW71lWmm9r4YcKKYOCBMan0WpVg7FtHu4Z4Wg==
+  dependencies:
+    lodash "^4.17.21"
+    validator "^13.7.0"
+
 express@~4.16.1:
   version "4.16.4"
   resolved "https://registry.yarnpkg.com/express/-/express-4.16.4.tgz#fddef61926109e24c515ea97fd2f1bdbf62df12e"
@@ -1090,6 +1098,11 @@ kruptein@^3.0.0:
   integrity sha512-c1pyg/HKep8y5l+AoiicTs94k4bnzBSiS1b8NQcnQDtv9Yh45rNLuDIUwEwawmuFYpcA5xqhG7k0LqiMhrBPXw==
   dependencies:
     asn1.js "^5.4.1"
+
+lodash@^4.17.21:
+  version "4.17.21"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
+  integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
 
 media-typer@0.3.0:
   version "0.3.0"
@@ -1411,6 +1424,11 @@ uuid@^8.3.2:
   version "8.3.2"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.3.2.tgz#80d5b5ced271bb9af6c445f21a1a04c606cefbe2"
   integrity sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==
+
+validator@^13.7.0:
+  version "13.7.0"
+  resolved "https://registry.yarnpkg.com/validator/-/validator-13.7.0.tgz#4f9658ba13ba8f3d82ee881d3516489ea85c0857"
+  integrity sha512-nYXQLCBkpJ8X6ltALua9dRrZDHVYxjJ1wgskNt1lH9fzGjs3tgojGSCBjmEPwkWS1y29+DrizMTW19Pr9uB2nw==
 
 vary@~1.1.2:
   version "1.1.2"

@@ -1,5 +1,6 @@
 const Users = require("../../models/Users");
 const bcrypt = require("bcryptjs");
+const { validationResult } = require("express-validator");
 
 // CREATE READ UPDATE DELETE FIND_ID
 
@@ -7,10 +8,6 @@ const bcrypt = require("bcryptjs");
 exports.getAllUsers = async (req, res, next) => {
   try {
     const result = await Users.find({});
-
-    if (!result) {
-      res.sendStatus(500);
-    }
 
     res.status(200).json({ data: result });
   } catch (e) {
@@ -21,19 +18,33 @@ exports.getAllUsers = async (req, res, next) => {
 // CREATE
 exports.register = async (req, res, next) => {
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
     const { email, username, password } = req.body;
 
     if (email == "" || username == "" || password == "") {
       res.status(400).json({ msg: "please fill in all data" });
     } else {
-      const hashPass = await bcrypt.hash(password, 12);
-      const result = new Users({ email, username, password: hashPass }).save();
+      const checkUsername = await Users.findOne({ username });
+      if (checkUsername) {
+        res.status(400).json({ msg: "username already registered" });
+      } else {
+        const hashPass = await bcrypt.hash(password, 12);
+        const result = new Users({
+          email,
+          username,
+          password: hashPass,
+        }).save();
 
-      if (!result) {
-        res.sendStatus(500);
+        if (!result) {
+          res.sendStatus(500);
+        }
+
+        res.send(201).json({ msg: "Created !" });
       }
-
-      res.send(201).json({ msg: "Created !" });
     }
   } catch (e) {
     next(e);
@@ -55,6 +66,13 @@ exports.login = async (req, res, next) => {
       const compare = await bcrypt.compare(password, checkEmail.password);
       if (!compare) {
         res.status(400).json({ msg: "invalid credentials" });
+      } else {
+        req.session.isLogin = true;
+        req.session._id = checkEmail._id;
+        req.session.email = checkEmail.email;
+        req.session.username = checkEmail.username;
+
+        res.status(200).json({ msg: "Welcome" });
       }
     }
   } catch (e) {

@@ -20,8 +20,8 @@ app.use(
     store: MongoStore.create({
       mongoUrl: process.env.MONGO_URI_LOCALHOST,
       touchAfter: 24 * 3600, // time period in seconds
+      collectionName: "user_session",
     }),
-    collectionName: "user_session",
   })
 );
 

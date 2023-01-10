@@ -10,7 +10,7 @@ const UserSchema = new Schema(
       unique: true,
     },
   },
-  { version: false, timestamps: true }
+  { versionKey: false, timestamps: true }
 );
 
 const Users = mongoose.model("user", UserSchema);
