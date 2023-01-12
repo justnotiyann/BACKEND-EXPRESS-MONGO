@@ -28,6 +28,12 @@ app.use(
       touchAfter: 24 * 3600, // time period in seconds
       collectionName: "user_session",
     }),
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 0.1,
+      sameSite: false,
+      secure: false,
+    },
+    name: "session_id",
   })
 );
 

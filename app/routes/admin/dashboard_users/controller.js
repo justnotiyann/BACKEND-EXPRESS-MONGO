@@ -1,9 +1,10 @@
-const bcryptjs = require("bcryptjs");
+const bcrypt = require("bcryptjs");
+const { check } = require("express-validator");
 const Users = require("../../../models/Users");
 
 exports.index = async (req, res, next) => {
   try {
-    const result = await Users.find({}).select("-_id -__v -password");
+    const result = await Users.find({}).select(" -__v -password");
 
     if (!result) {
       res.sendStatus(500);
@@ -37,25 +38,33 @@ exports.update = async (req, res, next) => {
   try {
     const id = req.params.id;
     const { email, username, password } = req.body;
+    const options = { new: true };
 
     const checkUser = await Users.findById(id);
-
     if (!checkUser) {
       res.status(404).json({ msg: "user not found" });
     }
 
-    const hashPass = await bcryptjs.hash(password, 12);
+    const hashPass = await bcrypt.hash(password, 12);
+    if (!hashPass) {
+      res.sendStatus(500);
+    }
+
     const result = await Users.findByIdAndUpdate(
       id,
-      { email, username, password: hashPass },
-      { new: true }
+      {
+        email: email ? email : checkUser.email,
+        username: username ? username : checkUser.username,
+        password: password ? hashPass : checkUser.password,
+      },
+      options
     );
 
     if (!result) {
       res.sendStatus(500);
     }
 
-    res.status(200).json({ msg: "updated !" });
+    res.status(200).json({ msg: "updated" });
   } catch (e) {
     console.log(e);
   }
