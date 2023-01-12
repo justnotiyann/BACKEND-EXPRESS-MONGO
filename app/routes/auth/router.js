@@ -2,10 +2,8 @@ const router = require("express").Router();
 const controller = require("./controller");
 const { body, check } = require("express-validator");
 
-router.get("/api/users", controller.getAllUsers);
-
 router.post(
-  "/auth/register",
+  "/register",
   body("email").isEmail(),
   body("username").not().isEmpty(),
   check("password")
@@ -16,5 +14,5 @@ router.post(
   controller.register
 );
 
-router.post("/auth/login", controller.login);
+router.post("/login", controller.login);
 module.exports = router;

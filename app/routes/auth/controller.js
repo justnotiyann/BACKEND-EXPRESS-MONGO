@@ -23,7 +23,8 @@ exports.register = async (req, res, next) => {
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { email, username, password } = req.body;
+    const { email, username, password, books_title, author, publisher } =
+      req.body;
 
     if (email == "" || username == "" || password == "") {
       res.status(400).json({ msg: "please fill in all data" });
@@ -37,6 +38,12 @@ exports.register = async (req, res, next) => {
           email,
           username,
           password: hashPass,
+          books_title,
+          favorite_books: {
+            books_title,
+            author,
+            publisher,
+          },
         }).save();
 
         if (!result) {

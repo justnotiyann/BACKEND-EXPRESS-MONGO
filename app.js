@@ -8,7 +8,10 @@ require("dotenv").config();
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
 
-mongoose.connect(process.env.MONGO_URI_LOCALHOST, { useNewUrlParser: true });
+mongoose.connect(process.env.MONGO_URI_LOCALHOST, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 const db = mongoose.connection;
 db.on("open", () => console.log("connected to database"));
 db.once("error", () => console.log("failed to connected database"));
@@ -16,6 +19,7 @@ db.once("error", () => console.log("failed to connected database"));
 app.use(
   session({
     secret: "keyboard cat",
+    resave: false,
     saveUninitialized: false, // don't create session until something stored
     store: MongoStore.create({
       // mongoUrl: process.env.MONGO_URI_LOCALHOST_LOCALHOST,
@@ -37,13 +41,16 @@ app.listen(process.env.PORT || 3000, () =>
 );
 
 // routes
-const indexRoutes = require("./app/routes/users/router");
+const indexRoutes = require("./app/routes/auth/router");
+const dashboardRoutes = require("./app/routes/dashboard/router");
 
-app.use("/", indexRoutes);
+app.use("/auth", indexRoutes);
+app.use("/dashboard", dashboardRoutes);
 
 // error
 const notFound = require("./app/middleware/not-found");
 const handleError = require("./app/middleware/ErrorHandlingMiddleware");
+const { strictEqual } = require("assert");
 app.use(notFound);
 app.use(handleError);
 

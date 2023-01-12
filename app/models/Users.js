@@ -1,16 +1,25 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
+const Books = require("./Books");
 
 const UserSchema = new Schema(
   {
-    email: String,
-    password: String,
+    user_id: {
+      type: mongoose.Schema.Types.ObjectId,
+    },
+    email: {
+      type: String,
+      trim: true,
+      unique: true,
+    },
     username: {
       type: String,
       unique: true,
     },
+    password: String,
+    favorite_books: Books,
   },
-  { versionKey: false, timestamps: true }
+  { timestamps: true }
 );
 
 const Users = mongoose.model("user", UserSchema);
