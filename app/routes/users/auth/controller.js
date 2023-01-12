@@ -2,20 +2,6 @@ const Users = require("../../../models/Users");
 const bcrypt = require("bcryptjs");
 const { validationResult } = require("express-validator");
 
-// CREATE READ UPDATE DELETE FIND_ID
-
-// READ
-exports.getAllUsers = async (req, res, next) => {
-  try {
-    const result = await Users.find({}).select("-password");
-
-    res.status(200).json({ data: result });
-  } catch (e) {
-    next(e);
-  }
-};
-
-// CREATE
 exports.register = async (req, res, next) => {
   try {
     const { email, username, password } = req.body;
@@ -88,6 +74,16 @@ exports.checkSession = async (req, res, next) => {
     }
 
     res.status(200).json({ data: result });
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+exports.destroy = async (req, res, next) => {
+  try {
+    req.session.destroy();
+
+    res.status(200).json({ msg: "Loggout", login: false });
   } catch (e) {
     console.log(e);
   }
