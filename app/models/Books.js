@@ -5,7 +5,7 @@ const BookSchema = new Schema({
   books_id: {
     type: mongoose.Schema.Types.ObjectId,
   },
-  books_title: {
+  book_title: {
     type: String,
     trim: true,
   },

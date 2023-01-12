@@ -40,9 +40,12 @@ app.listen(process.env.PORT || 3000, () =>
   console.log("server up and running")
 );
 
-// routes
-const indexRoutes = require("./app/routes/auth/router");
-const dashboardRoutes = require("./app/routes/dashboard/router");
+// admin routes
+const indexRoutes = require("./app/routes/admin/auth/router");
+
+// users routes
+const dashboardRoutes = require("./app/routes/admin/dashboard/router");
+const orderRoutes = require("./app/routes/users/order/router");
 
 app.use("/auth", indexRoutes);
 app.use("/dashboard", dashboardRoutes);
@@ -50,7 +53,6 @@ app.use("/dashboard", dashboardRoutes);
 // error
 const notFound = require("./app/middleware/not-found");
 const handleError = require("./app/middleware/ErrorHandlingMiddleware");
-const { strictEqual } = require("assert");
 app.use(notFound);
 app.use(handleError);
 
