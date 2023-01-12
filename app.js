@@ -7,6 +7,7 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
+const helmet = require("helmet");
 
 mongoose.connect(process.env.MONGO_URI_LOCALHOST, {
   useNewUrlParser: true,
@@ -30,6 +31,7 @@ app.use(
   })
 );
 
+app.use(helmet());
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -40,15 +42,16 @@ app.listen(process.env.PORT || 3000, () =>
   console.log("server up and running")
 );
 
-// admin routes
-const indexRoutes = require("./app/routes/admin/auth/router");
+// auth routes
+const authRoutes = require("./app/routes/users/auth/router");
 
 // users routes
-const dashboardRoutes = require("./app/routes/admin/dashboard/router");
+const dashboardRoutes = require("./app/routes/admin/dashboard_users/router");
 const orderRoutes = require("./app/routes/users/order/router");
 
-app.use("/auth", indexRoutes);
+app.use("/auth", authRoutes);
 app.use("/dashboard", dashboardRoutes);
+app.use("/order", orderRoutes);
 
 // error
 const notFound = require("./app/middleware/not-found");

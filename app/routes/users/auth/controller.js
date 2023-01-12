@@ -79,20 +79,16 @@ exports.login = async (req, res, next) => {
   }
 };
 
-// UPDATE
-exports.update = async (req, res, next) => {
+exports.checkSession = async (req, res, next) => {
   try {
-    const { id, email, username, password } = req.body;
-  } catch (e) {
-    next(e);
-  }
-};
+    const result = req.session.user_data;
 
-// DELETE
+    if (!result) {
+      res.status(404).json({ msg: "No Data" });
+    }
 
-exports.delete = async (req, res, next) => {
-  try {
+    res.status(200).json({ data: result });
   } catch (e) {
-    next(e);
+    console.log(e);
   }
 };
