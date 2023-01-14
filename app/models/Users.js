@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
-const Books = require("./Books");
+const { BookSchema } = require("./Books");
 
 const UserSchema = new Schema(
   {
@@ -17,7 +17,7 @@ const UserSchema = new Schema(
       unique: true,
     },
     password: String,
-    favorite_books: Books,
+    favorite_books: BookSchema,
   },
   { timestamps: true }
 );

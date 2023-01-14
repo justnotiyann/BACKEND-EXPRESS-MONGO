@@ -15,9 +15,10 @@ const BookSchema = new Schema({
   },
   publisher: {
     type: String,
+    trim: true,
   },
 });
 
-mongoose.model("book", BookSchema);
+const Books = mongoose.model("book", BookSchema);
 
-module.exports = BookSchema;
+module.exports = { BookSchema, Books };

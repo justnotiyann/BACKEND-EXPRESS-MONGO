@@ -48,16 +48,17 @@ app.listen(process.env.PORT || 3000, () =>
   console.log("server up and running")
 );
 
-// auth routes
-const authRoutes = require("./app/routes/users/auth/router");
+const api = "/api";
 
-// users routes
+const authRoutes = require("./app/routes/users/auth/router");
 const dashboardRoutes = require("./app/routes/admin/dashboard_users/router");
 const orderRoutes = require("./app/routes/users/order/router");
+const booksRoutes = require("./app/routes/admin/dashboard_books/router");
 
-app.use("/auth", authRoutes);
-app.use("/dashboard", dashboardRoutes);
-app.use("/order", orderRoutes);
+app.use(`${api}/auth`, authRoutes);
+app.use(`${api}/order`, orderRoutes);
+app.use(`${api}/dashboard/users`, dashboardRoutes);
+app.use(`${api}/dashboard/books`, booksRoutes);
 
 // error
 const notFound = require("./app/middleware/not-found");
