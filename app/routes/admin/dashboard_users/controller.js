@@ -84,3 +84,17 @@ exports.show = async (req, res, next) => {
     console.log(e);
   }
 };
+
+exports.getAllOrders = async (req, res, next) => {
+  try {
+    const result = await Users.find({});
+
+    if (!result) {
+      res.sendStatus(500);
+    }
+
+    res.status(200).json({ data: result });
+  } catch (e) {
+    next(e);
+  }
+};

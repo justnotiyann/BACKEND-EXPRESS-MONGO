@@ -1,7 +1,7 @@
 var session = require("express-session");
 var MongoStore = require("connect-mongo");
 
-const sessionVariabel = session({
+exports.sessionVariabel = session({
   secret: "keyboard cat",
   resave: false,
   saveUninitialized: false,
@@ -17,5 +17,3 @@ const sessionVariabel = session({
   },
   name: "session_id",
 });
-
-module.exports = { sessionVariabel };
