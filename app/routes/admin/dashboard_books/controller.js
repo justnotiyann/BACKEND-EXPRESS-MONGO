@@ -15,7 +15,7 @@ exports.index = async (req, res, next) => {
 exports.store = async (req, res, next) => {
   try {
     const { book_title, author, publisher } = req.body;
-    if (!book_title || !author || !publisher) {
+    if (!(book_title && author && publisher)) {
       res.status(400).json({ msg: "Please fill all datas !" });
     }
     const result = new Books(req.body).save();

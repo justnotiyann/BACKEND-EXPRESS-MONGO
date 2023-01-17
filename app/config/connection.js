@@ -1,8 +1,9 @@
 var mongoose = require("mongoose");
+const { MONGO_URI } = process.env;
 
 exports.connect = async () => {
   mongoose
-    .connect(process.env.MONGO_URI_LOCALHOST, {
+    .connect(MONGO_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     })

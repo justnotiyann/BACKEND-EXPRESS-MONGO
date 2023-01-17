@@ -29,7 +29,7 @@ const errorHandlerMiddleware = (err, req, res, next) => {
     customError.statusCode = 404;
   }
 
-  if (err.name === "MongoServerError") {
+  if (err.name === "MongoServerError" && err.code === 11000) {
     customError.msg = `Duplicate key in : ${err.value}`;
     customError.statusCode = 404;
   }

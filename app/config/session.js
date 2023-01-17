@@ -1,12 +1,13 @@
 var session = require("express-session");
 var MongoStore = require("connect-mongo");
+const { SECRET_KEY, MONGO_URI } = process.env;
 
 exports.sessionVariabel = session({
-  secret: "keyboard cat",
+  secret: SECRET_KEY,
   resave: false,
   saveUninitialized: false,
   store: MongoStore.create({
-    mongoUrl: process.env.MONGO_URI_LOCALHOST,
+    mongoUrl: MONGO_URI,
     touchAfter: 24 * 3600,
     collectionName: "user_session",
   }),

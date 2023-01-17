@@ -5,25 +5,30 @@ exports.register = async (req, res, next) => {
   try {
     const { email, username, password } = req.body;
 
-    if (email == "" || username == "" || password == "") {
+    if (!(email && username && password)) {
       res.status(400).json({ msg: "please fill in all data" });
     } else {
-      const checkUsername = await Users.findOne({ username });
-      if (checkUsername) {
-        res.status(400).json({ msg: "username already registered" });
+      const checkEmail = await Users.findOne({ email });
+      if (checkEmail) {
+        res.status(400).json({ msg: "email already registered" });
       } else {
-        const hashPass = await bcrypt.hash(password, 12);
-        const result = new Users({
-          email,
-          username,
-          password: hashPass,
-        }).save();
+        const checkUsername = await Users.findOne({ username });
+        if (checkUsername) {
+          res.status(400).json({ msg: "username already registered" });
+        } else {
+          const hashPass = await bcrypt.hash(password, 12);
+          const result = new Users({
+            email,
+            username,
+            password: hashPass,
+          }).save();
 
-        if (!result) {
-          res.sendStatus(500);
+          if (!result) {
+            res.sendStatus(500);
+          }
+
+          res.status(201).json({ msg: "Created !" });
         }
-
-        res.send(201).json({ msg: "Created !" });
       }
     }
   } catch (e) {
@@ -35,7 +40,7 @@ exports.register = async (req, res, next) => {
 exports.login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
-    if (email == "" || password == "") {
+    if (!(email && password)) {
       res.status(400).json({ msg: "please fill in all data" });
     }
 
@@ -60,7 +65,7 @@ exports.login = async (req, res, next) => {
       }
     }
   } catch (e) {
-    console.log(e);
+    next(e);
   }
 };
 
@@ -74,7 +79,7 @@ exports.checkSession = async (req, res, next) => {
 
     res.status(200).json({ data: result });
   } catch (e) {
-    console.log(e);
+    next(e);
   }
 };
 
@@ -84,6 +89,6 @@ exports.destroy = async (req, res, next) => {
 
     res.status(200).json({ msg: "Loggout", login: false });
   } catch (e) {
-    console.log(e);
+    next(e);
   }
 };

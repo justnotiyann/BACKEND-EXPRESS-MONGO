@@ -7,15 +7,15 @@ const BookSchema = new Schema({
   },
   book_title: {
     type: String,
-    trim: true,
+    // trim: true,
   },
   author: {
     type: String,
-    trim: true,
+    // trim: true,
   },
   publisher: {
     type: String,
-    trim: true,
+    // trim: true,
   },
 });
 

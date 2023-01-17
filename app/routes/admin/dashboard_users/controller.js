@@ -5,11 +5,9 @@ const Users = require("../../../models/Users");
 exports.index = async (req, res, next) => {
   try {
     const result = await Users.find({}).select(" -__v -password");
-
     if (!result) {
       res.sendStatus(500);
     }
-
     res.status(200).json({ data: result });
   } catch (e) {
     next(e);
@@ -19,18 +17,15 @@ exports.index = async (req, res, next) => {
 exports.destroy = async (req, res, next) => {
   try {
     const id = req.params.id;
-
     const result = await Users.findByIdAndDelete(id);
-
     if (!result) {
-      res.sendStatus(500);
+      res.status(404).json({ msg: "user not found !" });
     }
-
-    res.status(204).json({
+    res.status(200).json({
       msg: `user with username : ${result.username} has sucessfully deleted`,
     });
   } catch (e) {
-    console.log(e);
+    next(e);
   }
 };
 
@@ -66,14 +61,14 @@ exports.update = async (req, res, next) => {
 
     res.status(200).json({ msg: "updated" });
   } catch (e) {
-    console.log(e);
+    next(e);
   }
 };
 
 exports.show = async (req, res, next) => {
   try {
     const id = req.params.id;
-    const result = await Users.findById(id);
+    const result = await Users.findById(id).select("-password");
 
     if (!result) {
       res.status(404).json({ msg: "user not found !" });
@@ -81,7 +76,7 @@ exports.show = async (req, res, next) => {
 
     res.status(200).json({ data: result });
   } catch (e) {
-    console.log(e);
+    next(e);
   }
 };
 
